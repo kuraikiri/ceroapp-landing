@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cero — La calculadora financiera más completa de Chile</title>
+  <meta name="description" content="Cero: la calculadora financiera chilena más completa. 31 herramientas: indicadores UF/UTM/USD/EUR, sueldo líquido, finiquito, créditos, 35 divisas, widgets y más. Gratis en Google Play.">
+  <meta name="keywords" content="calculadora financiera, Chile, UF, UTM, sueldo líquido, finiquito, AFP, crédito, simulador">
+  <meta property="og:title" content="Cero — Calculadora financiera chilena">
+  <meta property="og:description" content="Calculadora científica + indicadores financieros + 13 herramientas de remuneraciones + simulador de créditos + 35 divisas. Gratis.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ceroapp.cl">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0A0A0B;
+      --bg-secondary: #111113;
+      --bg-card: #16161A;
+      --bg-card-hover: #1C1C21;
+      --border: #2A2A30;
+      --border-subtle: #1E1E24;
+      --text-primary: #F0EDE6;
+      --text-secondary: #8A8A96;
+      --text-muted: #5A5A66;
+      --accent: #D4A853;
+      --accent-dim: #B8923F;
+      --accent-glow: rgba(212, 168, 83, 0.12);
+      --accent-glow-strong: rgba(212, 168, 83, 0.25);
+      --green: #4ADE80;
+      --green-dim: rgba(74, 222, 128, 0.1);
+      --red: #F87171;
+      --blue: #60A5FA;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .logo-mark svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: var(--bg-primary) !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: all 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-dim) !important;
+      color: var(--bg-primary) !important;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 160px 0 100px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 8px;
+      background: var(--green-dim);
+      border: 1px solid rgba(74, 222, 128, 0.15);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 28px;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .hero-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+
+    .hero h1 .accent {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      animation: fadeInUp 0.6s ease 0.3s both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: var(--accent);
+      color: var(--bg-primary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dim);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px var(--accent-glow-strong);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      color: var(--text-primary);
+    }
+
+    /* ── Ticker strip ── */
+    .ticker {
+      padding: 40px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .ticker-inner {
+      display: flex;
+      gap: 48px;
+      animation: scroll 20s linear infinite;
+      width: max-content;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .ticker-value {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .ticker-change {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .ticker-change.up { color: var(--green); }
+    .ticker-change.down { color: var(--red); }
+
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── Features section ── */
+    .features {
+      padding: 100px 0;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin-bottom: 56px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border);
+      transform: translateY(-2px);
+    }
+
+    .feature-card.featured {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 168, 83, 0.04) 100%);
+      border-color: rgba(212, 168, 83, 0.12);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(212, 168, 83, 0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: var(--accent-glow);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 12px;
+    }
+
+    /* ── How it works / Numbers strip ── */
+    .numbers {
+      padding: 60px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+
+    .number-item .value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+
+    .number-item .label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── CTA section ── */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 168, 83, 0.06) 100%);
+      border: 1px solid rgba(212, 168, 83, 0.12);
+      border-radius: 24px;
+      padding: 64px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-box h2 {
+      font-size: clamp(1.8rem, 3vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta-box p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 460px;
+      margin: 0 auto 36px;
+      position: relative;
+    }
+
+    .cta-box .btn-primary {
+      position: relative;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-primary); }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Mobile nav toggle ── */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: all 0.3s;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 11, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .hero { padding: 120px 0 60px; }
+      .hero h1 { font-size: 2.4rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .features-grid { grid-template-columns: 1fr; }
+      .feature-card.featured { grid-column: span 1; }
+      .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .cta-box { padding: 48px 24px; }
+    }
+
+    /* ── Google Play badge ── */
+    .play-badge {
+      height: 52px;
+      transition: opacity 0.2s;
+    }
+    .play-badge:hover { opacity: 0.85; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">
+        <div class="logo-mark"><svg viewBox="200 220 360 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M254.553 609.55L290.603 571.75H377.053L411.003 609.55H254.553ZM244.053 437.7L281.853 474.1V559.85L244.053 594.15V437.7ZM422.203 594.15L384.403 558.1V472L422.203 437.7V594.15ZM254.203 253.95H410.653L376.003 291.75H290.253L254.203 253.95ZM243.003 425.45V269L280.803 302.95V389.75L243.003 425.45ZM421.153 269V425.45L383.353 391.5V305.05L421.153 269ZM472.534 557.75H516.634V602.55H472.534V557.75Z" fill="currentColor"/></svg></div>
+        Cero
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#funciones">Funciones</a></li>
+        <li><a href="#descargar">Descargar</a></li>
+        <li><a href="privacidad.html">Privacidad</a></li>
+        <li><a href="mailto:soporte@ceroapp.cl">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Datos en tiempo real · 6 APIs · Funciona offline
+      </div>
+      <h1>Tus finanzas en<br><span class="accent">cero</span> complicaciones.</h1>
+      <p class="hero-sub">Calculadora científica, indicadores en tiempo real, 13 herramientas de remuneraciones, simulador de créditos, conversor de 35 divisas y widgets para tu pantalla de inicio. Todo en una sola app, gratis.</p>
+      <div class="hero-actions" id="descargar">
+        <a href="#" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 010 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+          Descargar en Google Play
+        </a>
+        <a href="#funciones" class="btn-secondary">Ver funciones →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <section class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+      <div class="ticker-item">
+        <span class="ticker-label">UF</span>
+        <span class="ticker-value">$38.847,44</span>
+        <span class="ticker-change up">+0.02%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">UTM</span>
+        <span class="ticker-value">$67.790</span>
+        <span class="ticker-change up">+0.5%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">USD</span>
+        <span class="ticker-value">$948,23</span>
+        <span class="ticker-change down">-0.31%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">EUR</span>
+        <span class="ticker-value">$1.055,10</span>
+        <span class="ticker-change up">+0.18%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">IPC</span>
+        <span class="ticker-value">0.4%</span>
+        <span class="ticker-change up">mar</span>
+      </div>
+      <!-- Duplicate for seamless scroll -->
+      <div class="ticker-item">
+        <span class="ticker-label">UF</span>
+        <span class="ticker-value">$38.847,44</span>
+        <span class="ticker-change up">+0.02%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">UTM</span>
+        <span class="ticker-value">$67.790</span>
+        <span class="ticker-change up">+0.5%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">USD</span>
+        <span class="ticker-value">$948,23</span>
+        <span class="ticker-change down">-0.31%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">EUR</span>
+        <span class="ticker-value">$1.055,10</span>
+        <span class="ticker-change up">+0.18%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-label">IPC</span>
+        <span class="ticker-value">0.4%</span>
+        <span class="ticker-change up">mar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="funciones">
+    <div class="container">
+      <div class="section-label fade-in">5 módulos</div>
+      <h2 class="section-title fade-in">31 pantallas. 0 relleno.</h2>
+      <p class="section-desc fade-in">Cada herramienta diseñada para la legislación y el mercado chileno. 6 fuentes de datos, fórmulas verificadas, funciona offline.</p>
+
+      <div class="features-grid">
+        <div class="feature-card featured fade-in">
+          <div class="feature-icon">📊</div>
+          <h3>Indicadores en tiempo real</h3>
+          <p>UF, UTM, Dólar y Euro actualizados desde mindicador.cl con fallback automático. Conversión bidireccional instantánea, calendario histórico de 60 días, gráficos de hasta 5 años, y alertas de precios. Incluye calculadora IVA, tramos de impuesto, boleta de honorarios y reajuste de arriendo.</p>
+          <span class="feature-tag">7 HERRAMIENTAS</span>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🧮</div>
+          <h3>Calculadora científica</h3>
+          <p>Modo básico y científico completo: trigonometría, logaritmos, potencias, raíces y más. Panel de valores rápidos con indicadores del día y simulaciones guardadas.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🌍</div>
+          <h3>Divisas mundiales</h3>
+          <p>Conversor de 35 monedas con conversión cruzada, gráficos históricos, pares favoritos, alertas y spread fronterizo Argentina. Widget de pantalla de inicio.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">💰</div>
+          <h3>Sueldo dependiente</h3>
+          <p>De bruto a líquido en 14 pasos: AFP, salud, SIS, seguro de cesantía, impuesto único. Guarda y compara simulaciones.</p>
+        </div>
+
+        <div class="feature-card featured fade-in">
+          <div class="feature-icon">💼</div>
+          <h3>Hub de remuneraciones</h3>
+          <p>13 herramientas laborales especializadas: sueldo dependiente, boleta de honorarios con Operación Renta, finiquito con 7 causales, horas extra, comparador AFP, optimizador APV, asignación familiar, casa particular, sueldo docente con Carrera Docente, licencia médica SIL, jornada excepcional y plataformas digitales.</p>
+          <span class="feature-tag">13 HERRAMIENTAS</span>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🏦</div>
+          <h3>Créditos y deuda</h3>
+          <p>Simulador con amortización francesa y alemana, CAE real, verificación TMC desde la CMF. Comparador de 3 escenarios, prepago, refinanciamiento y gastos de mora.</p>
+          <span class="feature-tag">5 HERRAMIENTAS</span>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">⚖️</div>
+          <h3>Finiquito completo</h3>
+          <p>7 causales de despido, indemnización por años de servicio, vacaciones proporcionales, feriado legal y todos los componentes según legislación vigente.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">📱</div>
+          <h3>Widgets de pantalla</h3>
+          <p>2 widgets Glance en 3 tamaños cada uno: indicadores chilenos (UF, UTM, USD, EUR) y pares de divisas favoritos. Actualización automática en segundo plano.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <section class="numbers">
+    <div class="container">
+      <div class="numbers-grid fade-in">
+        <div class="number-item">
+          <div class="value">31</div>
+          <div class="label">Pantallas especializadas</div>
+        </div>
+        <div class="number-item">
+          <div class="value">35</div>
+          <div class="label">Divisas mundiales</div>
+        </div>
+        <div class="number-item">
+          <div class="value">3</div>
+          <div class="label">Temas: Oscuro · Claro · AMOLED</div>
+        </div>
+        <div class="number-item">
+          <div class="value">$0</div>
+          <div class="label">Gratis para siempre</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box fade-in">
+        <h2>Deja de adivinar.<br>Empieza a calcular.</h2>
+        <p>31 pantallas, 35 divisas, 13 herramientas laborales y 5 de créditos. Todo gratis, todo offline, todo chileno.</p>
+        <a href="#" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 010 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+          Descargar en Google Play
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="/" class="logo">
+            <div class="logo-mark"><svg viewBox="200 220 360 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M254.553 609.55L290.603 571.75H377.053L411.003 609.55H254.553ZM244.053 437.7L281.853 474.1V559.85L244.053 594.15V437.7ZM422.203 594.15L384.403 558.1V472L422.203 437.7V594.15ZM254.203 253.95H410.653L376.003 291.75H290.253L254.203 253.95ZM243.003 425.45V269L280.803 302.95V389.75L243.003 425.45ZM421.153 269V425.45L383.353 391.5V305.05L421.153 269ZM472.534 557.75H516.634V602.55H472.534V557.75Z" fill="currentColor"/></svg></div>
+            Cero
+          </a>
+          <p>© 2026 Cero. Hecho en Chile 🇨🇱</p>
+        </div>
+        <div class="footer-links">
+          <a href="privacidad.html">Política de privacidad</a>
+          <a href="mailto:soporte@ceroapp.cl">soporte@ceroapp.cl</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
