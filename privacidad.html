@@ -223,13 +223,13 @@
     <div class="policy-header">
       <div class="label">Legal</div>
       <h1>Política de Privacidad</h1>
-      <p class="updated">Última actualización: 14 de marzo de 2026</p>
+      <p class="updated">Última actualización: 19 de marzo de 2026</p>
     </div>
 
     <div class="policy-content">
 
       <div class="highlight-box">
-        <p><strong>Resumen:</strong> Cero es una calculadora financiera con 31 herramientas. No recopilamos datos personales identificables. No requerimos registro ni creación de cuenta. Los cálculos se procesan localmente en tu dispositivo.</p>
+        <p><strong>Resumen:</strong> Cero es una calculadora financiera con 45+ herramientas. No recopilamos datos personales identificables. No requerimos registro ni creación de cuenta. Los cálculos se procesan localmente en tu dispositivo. La app muestra anuncios de Google AdMob en la versión gratuita y ofrece una compra única para desbloquear funciones PRO.</p>
       </div>
 
       <h2>1. Información general</h2>
@@ -248,10 +248,22 @@
       </ul>
 
       <h3>2.2 Datos recopilados automáticamente</h3>
-      <p>Cero no utiliza servicios de analytics, crash reporting ni herramientas de seguimiento de terceros. No se recopila información técnica sobre tu dispositivo, sesiones ni patrones de uso.</p>
-      <p>Los parámetros legales y financieros (tablas impositivas, tasas AFP, topes imponibles) están incluidos directamente en la aplicación y se actualizan con cada nueva versión publicada en Google Play.</p>
+      <p>Cero no utiliza servicios propios de analytics ni crash reporting. Los parámetros legales y financieros (tablas impositivas, tasas AFP, topes imponibles) están incluidos directamente en la aplicación y se actualizan con cada nueva versión publicada en Google Play.</p>
 
-      <h3>2.3 Datos de indicadores y divisas</h3>
+      <h3>2.3 Publicidad (Google AdMob)</h3>
+      <p>La versión gratuita de Cero muestra anuncios de banner proporcionados por <strong>Google AdMob</strong>. Google puede recopilar ciertos datos con fines publicitarios, incluyendo:</p>
+      <ul>
+        <li>Identificador publicitario del dispositivo (AAID)</li>
+        <li>Información técnica del dispositivo (modelo, versión de SO)</li>
+        <li>Datos de interacción con los anuncios</li>
+      </ul>
+      <p>Al abrir la app por primera vez, se te presentará un formulario de consentimiento publicitario (Google UMP) según la legislación de tu región. Puedes modificar tus preferencias de consentimiento en cualquier momento desde la configuración de anuncios de tu dispositivo Android.</p>
+      <p>Los usuarios de <strong>Cero PRO</strong> no ven anuncios y AdMob no se carga para ellos. Para más información sobre cómo Google gestiona los datos publicitarios, consulta la <a href="https://policies.google.com/privacy">Política de Privacidad de Google</a>.</p>
+
+      <h3>2.4 Compras en la app (Google Play Billing)</h3>
+      <p>Cero ofrece una compra única ("Cero PRO") a través de <strong>Google Play Billing</strong>. El proceso de pago es gestionado íntegramente por Google Play. Nosotros no tenemos acceso a tus datos de pago (tarjeta, cuenta bancaria, etc.). Solo recibimos la confirmación de que la compra fue completada.</p>
+
+      <h3>2.5 Datos de indicadores y divisas</h3>
       <p>Cero consulta las siguientes APIs públicas para obtener datos financieros actualizados. Estas consultas se realizan directamente desde tu dispositivo y no se transmiten datos personales en el proceso:</p>
       <ul>
         <li><strong>mindicador.cl:</strong> Indicadores económicos chilenos (UF, UTM, dólar, euro)</li>
@@ -266,7 +278,12 @@
       <p>Cero no recopila ni procesa datos personales. La única información que sale de tu dispositivo son las consultas a las APIs financieras listadas arriba para obtener datos económicos actualizados. Estas consultas contienen únicamente el tipo de indicador o divisa solicitado, sin identificadores de usuario.</p>
 
       <h2>4. Compartición de datos con terceros</h2>
-      <p>No vendemos, intercambiamos ni transferimos datos a terceros con fines comerciales o publicitarios. No utilizamos servicios de analytics ni tracking. Los únicos servicios externos que la app consulta son APIs públicas de datos financieros:</p>
+      <p>No vendemos, intercambiamos ni transferimos tus datos personales a terceros. Los servicios de terceros integrados en la app son:</p>
+      <ul>
+        <li><strong>Google AdMob:</strong> Muestra anuncios en la versión gratuita. Google puede recopilar datos publicitarios según su propia política de privacidad.</li>
+        <li><strong>Google Play Billing:</strong> Gestiona la compra de Cero PRO. Google procesa el pago; nosotros no accedemos a datos financieros del usuario.</li>
+      </ul>
+      <p>Además, la app consulta las siguientes APIs públicas de datos financieros:</p>
       <ul>
         <li><strong>mindicador.cl</strong> y <strong>findic.cl</strong> — APIs públicas de indicadores financieros chilenos</li>
         <li><strong>open.er-api.com</strong> y <strong>Fawazahmed0</strong> — APIs públicas de tasas de cambio internacionales</li>
@@ -277,20 +294,24 @@
       <h2>5. Almacenamiento y seguridad</h2>
       <p>Todos los cálculos se procesan localmente en tu dispositivo. Las simulaciones guardadas, preferencias y datos en caché se almacenan exclusivamente en el almacenamiento interno de tu dispositivo (SharedPreferences). No mantenemos servidores propios ni de terceros que almacenen datos de usuarios.</p>
 
-      <h2>6. Derechos del usuario</h2>
+      <h2>6. Widgets y notificaciones</h2>
+      <p>Cero ofrece widgets para la pantalla de inicio que muestran indicadores económicos y divisas. Estos widgets se actualizan periódicamente en segundo plano mediante WorkManager, consultando las mismas APIs financieras públicas listadas en la sección 2.5. No se transmiten datos personales en estas actualizaciones.</p>
+      <p>Si configuras alertas de precios, Cero enviará notificaciones locales cuando un indicador o par de divisas supere el umbral definido. Las alertas se comprueban periódicamente en segundo plano. Toda la lógica se ejecuta en tu dispositivo; no se utiliza ningún servicio de notificaciones push externo.</p>
+
+      <h2>7. Derechos del usuario</h2>
       <p>Dado que no recopilamos datos personales ni utilizamos servicios de tracking, no existe un perfil personal que eliminar. Sin embargo, puedes:</p>
       <ul>
         <li>Desinstalar la aplicación en cualquier momento, lo que elimina todos los datos locales (simulaciones guardadas, caché y preferencias)</li>
         <li>Contactarnos para cualquier consulta relacionada con tu privacidad</li>
       </ul>
 
-      <h2>7. Menores de edad</h2>
+      <h2>8. Menores de edad</h2>
       <p>Cero es una herramienta de cálculo financiero de uso general. No está dirigida específicamente a menores de 13 años y no recopilamos intencionalmente información de menores.</p>
 
-      <h2>8. Cambios a esta política</h2>
+      <h2>9. Cambios a esta política</h2>
       <p>Podemos actualizar esta política ocasionalmente. Cualquier cambio se reflejará en esta página con una nueva fecha de "última actualización". Te recomendamos revisarla periódicamente.</p>
 
-      <h2>9. Contacto</h2>
+      <h2>10. Contacto</h2>
       <p>Si tienes preguntas o inquietudes sobre esta política de privacidad, puedes contactarnos en:</p>
       <ul>
         <li><strong>Correo:</strong> <a href="mailto:soporte@ceroapp.cl">soporte@ceroapp.cl</a></li>
