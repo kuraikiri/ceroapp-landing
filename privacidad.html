@@ -248,7 +248,20 @@
       </ul>
 
       <h3>2.2 Datos recopilados automáticamente</h3>
-      <p>Cero no utiliza servicios propios de analytics ni crash reporting. Los parámetros legales y financieros (tablas impositivas, tasas AFP, topes imponibles) están incluidos directamente en la aplicación y se actualizan con cada nueva versión publicada en Google Play.</p>
+      <p>Cero utiliza <strong>Firebase Crashlytics</strong> y <strong>Firebase Analytics</strong> de Google para mejorar la estabilidad y la experiencia de la aplicación.</p>
+      <p><strong>Firebase Crashlytics</strong> recopila automáticamente:</p>
+      <ul>
+        <li>Informes de fallos (stack traces anonimizados)</li>
+        <li>Información del dispositivo (modelo, versión de Android, orientación de pantalla)</li>
+        <li>Identificador de instalación de Firebase (no vinculado a tu identidad personal)</li>
+      </ul>
+      <p><strong>Firebase Analytics</strong> recopila automáticamente:</p>
+      <ul>
+        <li>Eventos de uso generales (apertura de la app, navegación entre pantallas)</li>
+        <li>Información del dispositivo y sistema operativo</li>
+      </ul>
+      <p>No se recopilan eventos personalizados con datos financieros del usuario. La recopilación de datos de Crashlytics se desactiva automáticamente en versiones de desarrollo de la aplicación. Estos datos se procesan según la <a href="https://policies.google.com/privacy">Política de Privacidad de Google</a> y la <a href="https://firebase.google.com/support/privacy">Política de Privacidad de Firebase</a>.</p>
+      <p>Los parámetros legales y financieros (tablas impositivas, tasas AFP, topes imponibles) están incluidos directamente en la aplicación y se actualizan con cada nueva versión publicada en Google Play.</p>
 
       <h3>2.3 Publicidad (Google AdMob)</h3>
       <p>La versión gratuita de Cero muestra anuncios de banner proporcionados por <strong>Google AdMob</strong>. Google puede recopilar ciertos datos con fines publicitarios, incluyendo:</p>
@@ -275,13 +288,16 @@
       </ul>
 
       <h2>3. Cómo usamos la información</h2>
-      <p>Cero no recopila ni procesa datos personales. La única información que sale de tu dispositivo son las consultas a las APIs financieras listadas arriba para obtener datos económicos actualizados. Estas consultas contienen únicamente el tipo de indicador o divisa solicitado, sin identificadores de usuario.</p>
+      <p>Los datos recopilados por Firebase Crashlytics se utilizan exclusivamente para detectar y corregir fallos técnicos en la aplicación. Los datos de Firebase Analytics se utilizan para entender patrones de uso generales y mejorar la experiencia de usuario. Ninguno de estos datos se utiliza para identificar usuarios individuales ni para fines publicitarios.</p>
+      <p>Las consultas a las APIs financieras listadas arriba sirven para obtener datos económicos actualizados. Estas consultas contienen únicamente el tipo de indicador o divisa solicitado, sin identificadores de usuario.</p>
 
       <h2>4. Compartición de datos con terceros</h2>
       <p>No vendemos, intercambiamos ni transferimos tus datos personales a terceros. Los servicios de terceros integrados en la app son:</p>
       <ul>
         <li><strong>Google AdMob:</strong> Muestra anuncios en la versión gratuita. Google puede recopilar datos publicitarios según su propia política de privacidad.</li>
         <li><strong>Google Play Billing:</strong> Gestiona la compra de Cero PRO. Google procesa el pago; nosotros no accedemos a datos financieros del usuario.</li>
+        <li><strong>Firebase Crashlytics (Google):</strong> Recopila informes de fallos y datos de rendimiento para diagnosticar y corregir problemas técnicos. <a href="https://firebase.google.com/support/privacy">Política de privacidad</a>.</li>
+        <li><strong>Firebase Analytics (Google):</strong> Recopila eventos de uso anonimizados para entender cómo se utiliza la aplicación. Los datos son agregados y no identifican usuarios individuales.</li>
       </ul>
       <p>Además, la app consulta las siguientes APIs públicas de datos financieros:</p>
       <ul>
